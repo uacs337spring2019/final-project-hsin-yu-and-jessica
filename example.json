@@ -1,0 +1,17 @@
+{
+    "objects": [
+        {"type": "large",
+        "position": [10, 10],
+        "color": "#555555",
+        "id": "some hash idk"},
+        {"type": "medium",
+        "position": [10, 10],
+        "color": "#555555",
+        "id": "some hash idk"},
+        {"type": "small",
+        "position": [10, 10],
+        "color": "#555555",
+        "id": "some hash idk"}
+    ],
+    "viewPosition": [25,25]
+}
