@@ -17,6 +17,10 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'));
 
+/*
+This sends back the file of scene.json containing all of the objects for the scene and
+coordinates for viewPosition.
+*/
 app.get('/', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
 
