@@ -82,6 +82,17 @@ app.post('/', jsonParser, function(req, res) {
   let id = req.body.id;
 
   if (type !== "" && position !== "" && color !== "" && id !== "") {
+    // get "objects" (which is an array of objects) to append to that array of objects
+    let json = fs.readFileSync("scene.json", 'utf8');
+    let scene = JSON.parse(json);
+    let objects = scene["objects"];
+    objects.push(req);
+
+    console.log("Object saved!");
+    res.send("Object saved!");
+
+    /*
+
     fs.appendFile("scene.json", req, function(error) {
       if (error) {
         console.log(error);
@@ -90,6 +101,8 @@ app.post('/', jsonParser, function(req, res) {
       console.log("Object saved successfully!");
       res.send("Object saved!");
     });
+
+    */
   }
 })
 
