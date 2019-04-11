@@ -72,8 +72,11 @@ app.get('/', function(req, res) {
   */
 })
 
-// for reciving JSON to parse and format as a string to place into a text file
-app.post('/', jsonParser, function(req, res) {
+/*
+This receives JSON objects to parse and check to make sure JSON has all of the correct
+information necessary to store into scene.json file
+*/
+app.post('/object', jsonParser, function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
 
   let type = req.body.type;
@@ -106,5 +109,21 @@ app.post('/', jsonParser, function(req, res) {
   }
 })
 
+app.post('/view', jsonParser, function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+
+  let view = req.body.viewPosition;
+
+  if (view !== "") {
+    let json = fs.readFileSync("scene.json", 'utf8');
+    let scene = JSON.parse(json);
+    let viewPosition = scene["viewPosition"];
+    viewPosition = req;
+
+    console.log("Position saved!");
+    res.send("Position saved!");
+  }
+
+})
 
 app.listen(3000);
