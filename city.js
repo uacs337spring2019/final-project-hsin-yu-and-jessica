@@ -17,6 +17,8 @@ app.use(function(req, res, next) {
 
 app.use(express.static('public'));
 
+/*
+
 function getComponents(rawData) {
   let object = {};
 
@@ -42,8 +44,17 @@ function getObjects(objectsFromData) {
   return allObjects;
 }
 
+*/
+
 app.get('/', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
+
+  res.header("Content-Type", "application/json");
+
+  res.send(fs.readFileSync("scene.json", 'utf8'));
+
+  /*
+
   let allObjects = {};
 
   // if getting from a file...
@@ -54,16 +65,33 @@ app.get('/', function(req, res) {
 
   let arrOfObjects = getObjects(objectsFromData.slice(1, objectsFromData.length));
   allObjects["objects"] = arrOfObjects;
-  
+
   allObjects["viewPosition"] = objectsFromData[0];
   res.send(JSON.stringify(allObjects));
+
+  */
 })
 
-/* for reciving JSON to parse and format as a string to place into a text file
+// for reciving JSON to parse and format as a string to place into a text file
 app.post('/', jsonParser, function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
 
+  let type = req.body.type;
+  let position = req.body.position;
+  let color = req.body.color;
+  let id = req.body.id;
+
+  if (type !== "" && position !== "" && color !== "" && id !== "") {
+    fs.appendFile("scene.json", req, function(error) {
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      console.log("Object saved successfully!");
+      res.send("Object saved!");
+    });
+  }
 })
-*/
+
 
 app.listen(3000);
