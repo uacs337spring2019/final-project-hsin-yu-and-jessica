@@ -89,7 +89,7 @@ app.post('/object', jsonParser, function(req, res) {
     let json = fs.readFileSync("scene.json", 'utf8');
     let scene = JSON.parse(json);
     let objects = scene["objects"];
-    objects.push(req);
+    objects.push(req.body);
 
     console.log("Object saved!");
     res.send("Object saved!");
@@ -118,7 +118,7 @@ app.post('/view', jsonParser, function(req, res) {
     let json = fs.readFileSync("scene.json", 'utf8');
     let scene = JSON.parse(json);
     let viewPosition = scene["viewPosition"];
-    viewPosition = req;
+    viewPosition = view;
 
     console.log("Position saved!");
     res.send("Position saved!");
