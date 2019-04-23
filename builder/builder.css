@@ -1,3 +1,64 @@
 h1 {
   text-align: center;
 }
+
+#mydiv {
+  position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+#mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+
+#allobjects {
+  margin-left: 80%;
+  border: solid black 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  width: 150px;
+  height: 550px;
+}
+
+.object {
+  z-index: 10;
+  cursor: move;
+  border: solid black 2px;
+  margin: auto;
+  padding: 20px;
+  width: 50px;
+  height: 30px;
+  vertical-align: middle;
+  color: white;
+}
+
+#large {
+  background-color: #4f4f4f;
+}
+
+#medium {
+  background-color: #9e9e9e;
+}
+
+#small {
+  background-color: #d3d3d3;
+}
+
+#tree {
+  background-color: #37bf62;
+  color: white;
+}
+
+#bush {
+  background-color: #22703b;
+  color: white;
+}
