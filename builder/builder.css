@@ -13,6 +13,7 @@ body {
 
 #opening {
   position: relative;
+  margin: auto;
   text-align: center;
   z-index: 100;
   width: 700px;
