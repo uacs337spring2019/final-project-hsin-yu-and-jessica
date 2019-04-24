@@ -12,7 +12,6 @@ the page to build their city.
 
   let idNum = 0;
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let shown = false;
 
   window.onload = function() {
     document.getElementById("ogLB").onclick = createObject;
@@ -35,10 +34,9 @@ the page to build their city.
    */
   function createObject() {
     console.log(this.classList[0]);
-    if (shown === false) {
+    if (idNum === 0) {
       document.getElementById("prompt").innerHTML = "Drag object to start building!";
       setTimeout(deletePrompt, 5000);
-      shown = true;
     }
 
     // create same object as clicked on and pop-up in middle of page
