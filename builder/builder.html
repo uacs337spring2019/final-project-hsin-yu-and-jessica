@@ -1,3 +1,9 @@
+<!--
+This program creates the general skeleton of a city-building app where the
+user is able to click on an object to add in their city and then drag it to
+wherever it pleases them in the environment.
+-->
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -8,25 +14,21 @@
 
     <title>City Building</title>
   </head>
+
   <body>
-
-    <h1> City Building </h1>
-
-    <div id="mydiv">
-      <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
-      <div id="mydivheader">Click here to move</div>
-      <p>Move</p>
-      <p>this</p>
-      <p>DIV</p>
+    <div id="opening">
+      <h1> City Building </h1>
+      <h2 id="prompt"> Click an option on the right to start building! </h2>
     </div>
 
-    <div id="allobjects">
-      <p id="large" class="object">Large Building</p>
-      <p id="medium" class="object">Medium Building</p>
-      <p id="small" class="object">Small Building</p>
-      <p id="tree" class="object">Tree</p>
-      <p id="bush" class="object">Bush</p>
+    <div id="environment">
+      <div id="allobjects">
+        <p id="ogLB" class="large object">Large Building</p>
+        <p id="ogMB" class="medium object">Medium Building</p>
+        <p id="ogSB" class="small object">Small Building</p>
+        <p id="ogTree" class="tree object">Tree</p>
+        <p id="ogBush" class="bush object">Bush</p>
+      </div>
     </div>
-
   </body>
 </html>
