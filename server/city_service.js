@@ -19,6 +19,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+//Create the scene if it doesn't already exist
+if (!fs.existsSync(path.join(__dirname, "scene.json"))) {
+  fs.writeFileSync(path.join(__dirname, "scene.json"));
+}
+
 /*
 This sends back the file of scene.json containing all of the objects for the scene and
 coordinates for viewPosition.
