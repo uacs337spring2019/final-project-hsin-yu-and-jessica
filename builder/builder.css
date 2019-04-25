@@ -31,7 +31,7 @@ body {
   height: 550px;
 }
 
-#ogLB, #ogMB, #ogSB, #ogTree, #ogBush {
+#ogLB, #ogMB, #ogSB, #ogTree, #ogBush{
   position: relative;
   z-index: 100;
 }
@@ -45,6 +45,14 @@ body {
   text-align: center;
   vertical-align: middle;
   color: white;
+}
+
+#person {
+  position: absolute;
+  z-index: 50;
+  left: 150px;
+  top: 200px;
+  background-color: #ffb516;
 }
 
 .large {
