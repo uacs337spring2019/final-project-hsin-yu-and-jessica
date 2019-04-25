@@ -74,7 +74,7 @@ the page to build their city.
   */
   function postObject(newObj) {
     let type = newObj.classList[0];
-    let pos = "[" + newObj.style.left + ", " + newObj.style.top + "]";
+    let pos = "[" + newObj.offsetLeft + ", " + newObj.offsetTop + "]";
     let color = newObj.style.backgroundColor;
     let id = newObj.id;
     console.log(type);
@@ -87,7 +87,7 @@ the page to build their city.
     let person = document.getElementById("person");
     let personX = person.style.left;
     let personY = person.style.top;
-    let personXY = "[" + personX + ", " + personY + "]"
+    //let personXY = "[" + personX + ", " + personY + "]"
     */
 
     const obj = {type: type, position: pos, color: color, id: id};
@@ -118,13 +118,14 @@ the page to build their city.
   dragged.
   */
   function postPerson(person) {
-    let posX = person.style.left;
-    let posY = person.style.top;
+    let posX = person.offsetLeft;
+    let posY = person.offsetTop;
 
     console.log(posX);
     console.log(posY);
 
-    let posXY = "[" + posX + ", " + posY + "]";
+    let posXY = [];
+    posXY.push(posX, posY);
 
     const personPos = {viewPosition: posXY};
     const fetchOptions = {
