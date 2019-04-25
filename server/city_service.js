@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 
 //Create the scene if it doesn't already exist
 if (!fs.existsSync(path.join(__dirname, "scene.json"))) {
-  fs.writeFileSync(path.join(__dirname, "scene.json"));
+  fs.writeFileSync(path.join(__dirname, "scene.json"), "{objects:[], viewPosition:[]}");
 }
 
 /*
