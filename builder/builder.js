@@ -54,6 +54,8 @@ the page to build their city.
     let id = rawObj["id"];
 
     objToPlace.id = id;
+    objToPlace.classList.add(type);
+    objToPlace.classList.add("object");
     objToPlace.style.position = "absolute";
     objToPlace.style.left = position[0];
     objToPlace.style.top = position[1];
