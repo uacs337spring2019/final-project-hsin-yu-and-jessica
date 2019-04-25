@@ -5,7 +5,7 @@
 */
 (function () {
   "use strict";
-  let url = "http://city-builder.herokuapp.com";
+  let url = "https://city-builder.herokuapp.com";
   let socket;
 
   window.addEventListener('load', function() {
