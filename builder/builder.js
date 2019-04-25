@@ -69,6 +69,9 @@ the page to build their city.
     postObject(newObj);
   }
 
+  /*
+  This posts the object that was created as well as
+  */
   function postObject(newObj) {
     let type = newObj.classList[0];
     let pos = "[" + newObj.style.left + ", " + newObj.style.top + "]";
@@ -78,6 +81,14 @@ the page to build their city.
     console.log(pos);
     console.log(color);
     console.log(id);
+
+    postPerson(document.getElementById("person"));
+    /*
+    let person = document.getElementById("person");
+    let personX = person.style.left;
+    let personY = person.style.top;
+    let personXY = "[" + personX + ", " + personY + "]"
+    */
 
     const obj = {type: type, position: pos, color: color, id: id};
     const fetchOptions = {
@@ -102,6 +113,10 @@ the page to build their city.
       });
   }
 
+  /*
+  This function gets the position of the person once they are done being
+  dragged.
+  */
   function postPerson(person) {
     let posX = person.style.left;
     let posY = person.style.top;
@@ -120,7 +135,7 @@ the page to build their city.
 
     let url = "http://localhost:3000/view";
 
-    // send JSON to server and check if received by server successfully
+    // send object to server and check if received by server successfully
     fetch(url, fetchOptions)
       .then(checkStatus)
       .then(function(responseText) {
@@ -176,7 +191,7 @@ the page to build their city.
       document.onmouseup = null;
       document.onmousemove = null;
 
-      // executes appropriate post request depending on object being dragged
+      // executes appropriate post request depending on element being dragged
       if (obj.id === "person") {
         postPerson(obj);
       }
