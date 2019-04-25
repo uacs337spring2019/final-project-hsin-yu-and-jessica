@@ -14,12 +14,27 @@ the page to build their city.
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
   window.onload = function() {
+
     document.getElementById("ogLB").onclick = createObject;
     document.getElementById("ogMB").onclick = createObject;
     document.getElementById("ogSB").onclick = createObject;
     document.getElementById("ogTree").onclick = createObject;
     document.getElementById("ogBush").onclick = createObject;
+    document.getElementById("person").onmousedown = dragging;
   };
+
+  function getCurrScene() {
+    fetch("http://localhost:3000/scene")
+    .then(checkStatus)
+    .then(function(responseText) {
+      let json = JSON.parse(responseText);
+      let objects = json["objects"];
+
+      if (objects.length !== 0) {
+        //for (let o = 0; o)
+      }
+    })
+  }
 
   /**
    * This function helps to delete the beginning prompt.
@@ -33,7 +48,6 @@ the page to build their city.
    * objects that the user decides to include in building their desired city.
    */
   function createObject() {
-    console.log(this.classList[0]);
     if (idNum === 0) {
       document.getElementById("prompt").innerHTML = "Drag object to start building!";
       setTimeout(deletePrompt, 5000);
@@ -46,10 +60,78 @@ the page to build their city.
     newObj.style.left = "50%";
     newObj.style.top = "50%";
     newObj.style.transform = "translate(-50%, -50%)";
+    newObj.style.backgroundColor = window.getComputedStyle(this, null).getPropertyValue("background-color");
     newObj.onmousedown = dragging;
 
     document.getElementById("environment").append(newObj);
     idNum++;
+
+    postObject(newObj);
+  }
+
+  function postObject(newObj) {
+    let type = newObj.classList[0];
+    let pos = "[" + newObj.style.left + ", " + newObj.style.top + "]";
+    let color = newObj.style.backgroundColor;
+    let id = newObj.id;
+    console.log(type);
+    console.log(pos);
+    console.log(color);
+    console.log(id);
+
+    const obj = {type: type, position: pos, color: color, id: id};
+    const fetchOptions = {
+      method: 'POST',
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      body: JSON.stringify(obj)
+    };
+
+    let url = "http://localhost:3000/object";
+
+    // send JSON to server and check if received by server successfully
+    fetch(url, fetchOptions)
+      .then(checkStatus)
+      .then(function(responseText) {
+        if (responseText === "Object saved!") {
+          console.log("Object saved!");
+        }
+      })
+
+      .catch(function(error) {
+        console.log("error");
+      });
+  }
+
+  function postPerson(person) {
+    let posX = person.style.left;
+    let posY = person.style.top;
+
+    console.log(posX);
+    console.log(posY);
+
+    let posXY = "[" + posX + ", " + posY + "]";
+
+    const personPos = {viewPosition: posXY};
+    const fetchOptions = {
+      method: 'POST',
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      body: JSON.stringify(personPos)
+    };
+
+    let url = "http://localhost:3000/view";
+
+    // send JSON to server and check if received by server successfully
+    fetch(url, fetchOptions)
+      .then(checkStatus)
+      .then(function(responseText) {
+        if (responseText === "Position saved!") {
+          console.log("Position saved!");
+        }
+      })
+
+      .catch(function(error) {
+        console.log("error");
+      });
   }
 
   /**
@@ -93,6 +175,14 @@ the page to build their city.
     function stopDragging() {
       document.onmouseup = null;
       document.onmousemove = null;
+
+      // executes appropriate post request depending on object being dragged
+      if (obj.id === "person") {
+        postPerson(obj);
+      }
+      else if (obj.classList.length > 1) {
+        postObj(obj);
+      }
     }
   }
 
