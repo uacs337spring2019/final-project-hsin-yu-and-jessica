@@ -100,7 +100,9 @@ the page to build their city.
   */
   function postObject(newObj) {
     let type = newObj.classList[0];
-    let pos = "[" + newObj.offsetLeft + ", " + newObj.offsetTop + "]";
+    let pos = [];
+    pos.push(newObj.offsetLeft);
+    pos.push(newObj.offsetTop);
     let color = newObj.style.backgroundColor;
     let id = newObj.id;
     console.log(type);
