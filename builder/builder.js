@@ -14,7 +14,7 @@ the page to build their city.
 
   let idNum = 0;
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let url = "http://localhost:3000/"
+  let url = "http://localhost:3000/";
 
   window.onload = function() {
     getCurrScene();
@@ -120,7 +120,7 @@ the page to build their city.
    * This posts the object that was created as well as the person when object is created.
    *
    * @param {html element} newObj - This is an html element of the current object being placed.
-  */
+   */
   function postObject(newObj) {
     let type = newObj.classList[0];
     let pos = [];
@@ -149,15 +149,15 @@ the page to build their city.
       })
 
       .catch(function(error) {
-        console.log("error");
+        console.log(error);
       });
   }
 
-  /**
+ /**
    * This function gets the position of the person once they are done being dragged.
    *
    * @param {html element} person - This the html element of the person in the environment.
-  */
+   */
   function postPerson(person) {
     let posX = person.offsetLeft;
     let posY = person.offsetTop;
@@ -182,7 +182,7 @@ the page to build their city.
       })
 
       .catch(function(error) {
-        console.log("error");
+        console.log(error);
       });
   }
 
@@ -251,16 +251,17 @@ the page to build their city.
    * appropriate error messages.
    *
    * @param {response} response - This is a response text from a server request.
+   * @returns {Promise} return a promise message
    */
   function checkStatus(response) {
-      if (response.status >= 200 && response.status < 300) {
-          return response.text();
-      // special reject message for page not found
+    if (response.status >= 200 && response.status < 300) {
+      return response.text();
+    // special reject message for page not found
     } else if(response.status === 404) {
-      	return Promise.reject(new Error("Sorry we do not have any data"));
-      } else {
-          return Promise.reject(new Error(response.status + ": " + response.statusText));
-      }
+      return Promise.reject(new Error("Sorry we do not have any data"));
+    } else {
+      return Promise.reject(new Error(response.status + ": " + response.statusText));
+    }
   }
 
 })();
