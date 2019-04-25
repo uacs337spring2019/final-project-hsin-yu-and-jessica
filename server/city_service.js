@@ -1,3 +1,9 @@
+/*
+  Authors: Jessica Coan and Hsin-Yu Chen
+  File: city_service.js
+  Description: Provides the backend functionality for a city building app
+*/
+
 "use strict";
 const path = require('path');
 const express = require("express");
@@ -21,9 +27,9 @@ app.use(function (req, res, next) {
 
 //Create the scene if it doesn't already exist
 if (!fs.existsSync(path.join(__dirname, "scene.json"))) {
-  fs.writeFileSync(path.join(__dirname, "scene.json"), "{objects:[], viewPosition:[]}");
+  console.log("fuuuuck");
+  fs.writeFileSync(__dirname + "/scene.json", JSON.stringify({objects: [], viewPosition:[]}));
 }
-
 /*
 This sends back the file of scene.json containing all of the objects for the scene and
 coordinates for viewPosition.
@@ -72,7 +78,6 @@ app.post('/object', jsonParser, function (req, res) {
         "id": id
       });
     }
-
     fs.writeFileSync(__dirname + "/scene.json", JSON.stringify(scene));
     console.log("Object saved!");
     res.send("Object saved!\n");

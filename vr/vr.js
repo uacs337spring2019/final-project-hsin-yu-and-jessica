@@ -1,26 +1,34 @@
-/* eslint-disable semi */
+/*
+  Authors: Jessica Coan and Hsin-Yu Chen
+  File: vr.js
+  Description: Provides the functionality for a VR city viewing app
+*/
 (function () {
-  var AFRAME = require('aframe');
-  var socket = require('socket.io-client')("http://localhost:3000");
+  "use strict";
+  let url = "http://localhost:3000";
+  let socket;
 
-  socket.on('update', function () {
+  window.addEventListener('load', function() {
+    socket = io(url);
+    socket.on('update', function () {
+      getScene();
+    });
     getScene();
   });
-
-  window.addEventListener('load', getScene);
 
   /**
    * Initiates the GET request to get the scene
    */
   function getScene() {
     console.log("getting world");
-    fetch("http://localhost:3000/scene")
+    fetch(url + "/scene")
       .then(checkStatus)
       .then(updateScene);
   }
 
   /**
-   * Updates the scene based on new data. Inserts new objects in if needed, otherwise updates current objects.
+   * Updates the scene based on new data. 
+   * Inserts new objects in if needed, otherwise updates current objects.
    * @param {String} data Data recieved from the server representing the scene
    */
   function updateScene(data) {
@@ -32,9 +40,9 @@
     }
 
     for (let i = 0; i < json.objects.length; i++) {
-      let item = document.getElementById(json.objects[i].id)
+      let item = document.getElementById(json.objects[i].id);
       if (item === null) {
-        item = newBuilding = document.createElement("a-entity");
+        item = document.createElement("a-entity");
         item.id = json.objects[i].id;
         document.getElementById("level-buildings").appendChild(item);
       }
@@ -48,6 +56,7 @@
   /**
    * Verifies that the response from the server is a good one
    * @param {Response} response A response from the server
+   * @returns {String} the good response
    */
   function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {

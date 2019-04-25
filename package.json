@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/city_service.js",
   "scripts": {
-    "build": "npm run-script build-vr; npm run-script build-server; cp builder/* dist",
+    "build": "mkdir dist; npm run-script build-vr; npm run-script build-server; cp builder/* dist",
     "build-server": "cp server/city_service.js dist/city_service.js",
-    "build-vr": "cd vr; npm install; npm run-script build;",
+    "build-vr": "cp vr/vr.html dist/; cp vr/vr.js dist/",
     "dev-start": "PORT=3000 npm start",
     "start": "node dist/city_service.js"
   },
