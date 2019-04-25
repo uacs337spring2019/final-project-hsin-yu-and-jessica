@@ -14,7 +14,7 @@ the page to build their city.
 
   let idNum = 0;
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let url = "http://city-builder.herokuapp.com/";
+  let url = "https://city-builder.herokuapp.com/";
 
   window.onload = function() {
     getCurrScene();
