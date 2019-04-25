@@ -70,7 +70,7 @@ the page to build their city.
   }
 
   /*
-  This posts the object that was created as well as
+  This posts the object that was created as well as the person when object is created.
   */
   function postObject(newObj) {
     let type = newObj.classList[0];
@@ -199,6 +199,17 @@ the page to build their city.
         postObj(obj);
       }
     }
+  }
+
+  function checkStatus(response) {
+      if (response.status >= 200 && response.status < 300) {
+          return response.text();
+      // special reject message for page not found
+    } else if(response.status === 404) {
+      	return Promise.reject(new Error("Sorry we do not have any data"));
+      } else {
+          return Promise.reject(new Error(response.status + ": " + response.statusText));
+      }
   }
 
 })();
