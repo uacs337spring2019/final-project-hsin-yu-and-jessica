@@ -31,9 +31,35 @@ the page to build their city.
       let objects = json["objects"];
 
       if (objects.length !== 0) {
-        //for (let o = 0; o)
+        for (let o = 0; o < objects.length; o++) {
+          placeObj(objects[o]);
+        }
+
+        idNum = objects.length;
       }
     })
+
+    .catch(function() {
+      console.log("Error");
+    });
+  }
+
+  function placeObj(rawObj) {
+    let objToPlace = document.createElement("p");
+
+    let type = rawObj["type"];
+    let position = rawObj["position"];
+    let color = rawObj["color"];
+    let id = rawObj["id"];
+
+    objToPlace.id = id;
+    objToPlace.style.position = "absolute";
+    objToPlace.style.left = position[0];
+    objToPlace.style.top = position[1];
+    objToPlace.style.backgroundColor = color;
+    objToPlace.onmousedown = dragging;
+
+    document.getElementById("environment").append(objToPlace);
   }
 
   /**
@@ -197,7 +223,7 @@ the page to build their city.
         postPerson(obj);
       }
       else if (obj.classList.length > 1) {
-        postObj(obj);
+        postObject(obj);
       }
     }
   }
