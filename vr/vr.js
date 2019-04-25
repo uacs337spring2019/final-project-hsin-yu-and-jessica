@@ -5,7 +5,7 @@
 */
 (function () {
   "use strict";
-  let url = "http://localhost:3000";
+  let url = "http://city-builder.herokuapp.com:54668";
   let socket;
 
   window.addEventListener('load', function() {
