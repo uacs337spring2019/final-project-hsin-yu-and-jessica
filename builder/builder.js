@@ -1,4 +1,6 @@
 /**
+Author: Jessica Coan and Hsin-Yu Chen
+
 This program helps to make the city-building app interactive with the user
 where they can click and drag objects around to build their desired city.
 When the user clicks on an object that they want to include, a new HTML
@@ -12,6 +14,7 @@ the page to build their city.
 
   let idNum = 0;
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  let url = "http://localhost:3000/";
 
   window.onload = function() {
     getCurrScene();
@@ -24,8 +27,15 @@ the page to build their city.
     document.getElementById("person").onmousedown = dragging;
   };
 
+  /**
+   * This function creates the current scene of the environment based on the
+   * get request for a JSON file that contains all of the objects the user
+   * had previously placed before. This makes sure that when the user refreshes
+   * the environment that the objects they had created before had are still there.
+   */
   function getCurrScene() {
-    fetch("http://localhost:3000/scene")
+
+    fetch(url + "scene")
     .then(checkStatus)
     .then(function(responseText) {
       let json = JSON.parse(responseText);
@@ -45,6 +55,13 @@ the page to build their city.
     });
   }
 
+  /**
+   * This function places the objects from a given JSON file into the scene
+   * so then when the user refreshes the page, the city that they built before
+   * will still be there.
+   *
+   * @param {json} rawObj - This is a json object containing characters of an object.
+   */
   function placeObj(rawObj) {
     let objToPlace = document.createElement("p");
 
@@ -57,8 +74,8 @@ the page to build their city.
     objToPlace.classList.add(type);
     objToPlace.classList.add("object");
     objToPlace.style.position = "absolute";
-    objToPlace.style.left = position[0];
-    objToPlace.style.top = position[1];
+    objToPlace.style.left = position[0] + "px";
+    objToPlace.style.top = position[1] + "px";
     objToPlace.style.backgroundColor = color;
     objToPlace.onmousedown = dragging;
 
@@ -89,7 +106,8 @@ the page to build their city.
     newObj.style.left = "50%";
     newObj.style.top = "50%";
     newObj.style.transform = "translate(-50%, -50%)";
-    newObj.style.backgroundColor = window.getComputedStyle(this, null).getPropertyValue("background-color");
+    newObj.style.backgroundColor =
+            window.getComputedStyle(this, null).getPropertyValue("background-color");
     newObj.onmousedown = dragging;
 
     document.getElementById("environment").append(newObj);
@@ -98,9 +116,11 @@ the page to build their city.
     postObject(newObj);
   }
 
-  /*
-  This posts the object that was created as well as the person when object is created.
-  */
+  /**
+   * This posts the object that was created as well as the person when object is created.
+   *
+   * @param {html element} newObj - This is an html element of the current object being placed.
+   */
   function postObject(newObj) {
     let type = newObj.classList[0];
     let pos = [];
@@ -108,19 +128,10 @@ the page to build their city.
     pos.push(newObj.offsetTop);
     let color = newObj.style.backgroundColor;
     let id = newObj.id;
-    console.log(type);
-    console.log(pos);
-    console.log(color);
-    console.log(id);
 
     postPerson(document.getElementById("person"));
-    /*
-    let person = document.getElementById("person");
-    let personX = person.style.left;
-    let personY = person.style.top;
-    //let personXY = "[" + personX + ", " + personY + "]"
-    */
 
+    // create json object
     const obj = {type: type, position: pos, color: color, id: id};
     const fetchOptions = {
       method: 'POST',
@@ -128,10 +139,8 @@ the page to build their city.
       body: JSON.stringify(obj)
     };
 
-    let url = "http://localhost:3000/object";
-
     // send JSON to server and check if received by server successfully
-    fetch(url, fetchOptions)
+    fetch(url + "object", fetchOptions)
       .then(checkStatus)
       .then(function(responseText) {
         if (responseText === "Object saved!") {
@@ -140,20 +149,18 @@ the page to build their city.
       })
 
       .catch(function(error) {
-        console.log("error");
+        console.log(error);
       });
   }
 
-  /*
-  This function gets the position of the person once they are done being
-  dragged.
-  */
+ /**
+   * This function gets the position of the person once they are done being dragged.
+   *
+   * @param {html element} person - This the html element of the person in the environment.
+   */
   function postPerson(person) {
     let posX = person.offsetLeft;
     let posY = person.offsetTop;
-
-    console.log(posX);
-    console.log(posY);
 
     let posXY = [];
     posXY.push(posX, posY);
@@ -165,10 +172,8 @@ the page to build their city.
       body: JSON.stringify(personPos)
     };
 
-    let url = "http://localhost:3000/view";
-
     // send object to server and check if received by server successfully
-    fetch(url, fetchOptions)
+    fetch(url + "view", fetchOptions)
       .then(checkStatus)
       .then(function(responseText) {
         if (responseText === "Position saved!") {
@@ -177,13 +182,15 @@ the page to build their city.
       })
 
       .catch(function(error) {
-        console.log("error");
+        console.log(error);
       });
   }
 
   /**
    * This function allows the user to drag the objects around that they want
    * to include in their city.
+   *
+   * @param {event} event - This is an event to trigger this function for dragging an html element.
    */
   function dragging(event) {
     let obj = this;
@@ -193,6 +200,8 @@ the page to build their city.
     /**
      * This function captures the position of the mouse to help position
      * the object once it is done being dragged.
+     *
+     * @param {event} event - This is an event to help drag an html element.
      */
     function dragMouseDown(event) {
       pos3 = event.clientX;
@@ -204,6 +213,8 @@ the page to build their city.
     /**
      * This function helps to drag objects around by reassigning the ojbect's
      * position to the mouse position.
+     *
+     * @param {event} event - This is an event to help drag an html element.
      */
     function dragElement(event) {
       pos1 = pos3 - event.clientX;
@@ -218,6 +229,8 @@ the page to build their city.
     /**
      * This function forces the object to stop following the mouse once the
      * mouse is not clicking down on the object anymore.
+     *
+     * @param {event} event - This is an event to help stop dragging an html element.
      */
     function stopDragging() {
       document.onmouseup = null;
@@ -233,15 +246,22 @@ the page to build their city.
     }
   }
 
+  /**
+   * This checks the status of the requests to the server and prints out any
+   * appropriate error messages.
+   *
+   * @param {response} response - This is a response text from a server request.
+   * @returns {Promise} return a promise message
+   */
   function checkStatus(response) {
-      if (response.status >= 200 && response.status < 300) {
-          return response.text();
-      // special reject message for page not found
+    if (response.status >= 200 && response.status < 300) {
+      return response.text();
+    // special reject message for page not found
     } else if(response.status === 404) {
-      	return Promise.reject(new Error("Sorry we do not have any data"));
-      } else {
-          return Promise.reject(new Error(response.status + ": " + response.statusText));
-      }
+      return Promise.reject(new Error("Sorry we do not have any data"));
+    } else {
+      return Promise.reject(new Error(response.status + ": " + response.statusText));
+    }
   }
 
 })();
